@@ -13,7 +13,7 @@ description = 'OSGi support'
 ext {
 	osgiCoreVersion = '6.0.0'
 	osgiCompediumVersion = '5.0.0'
-	karafVersion = '4.1.0'
+	karafVersion = '4.2.1'
 	paxExamVersion = '4.12.0'
 }
 

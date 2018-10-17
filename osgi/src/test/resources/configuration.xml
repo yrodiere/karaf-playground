@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<configuration>
+    <name>My configuration</name>
+    <properties>
+        <property>
+            <name>property1</name>
+            <value>osgi value 1</value>
+        </property>
+        <property>
+            <name>property2</name>
+            <value>osgi value 2</value>
+        </property>
+    </properties>
+</configuration>

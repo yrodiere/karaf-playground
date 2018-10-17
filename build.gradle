@@ -1,0 +1,33 @@
+/*
+ * Hibernate, Relational Persistence for Idiomatic Java
+ *
+ * License: GNU Lesser General Public License (LGPL), version 2.1 or later.
+ * See the lgpl.txt file in the root directory or <http://www.gnu.org/licenses/lgpl-2.1.html>.
+ */
+
+buildscript {
+	repositories {
+		jcenter()
+		mavenCentral()
+	}
+	dependencies {
+		classpath 'com.github.lburgazzoli:gradle-karaf-plugin:0.1.1'
+	}
+}
+
+allprojects {
+	repositories {
+		mavenCentral()
+	}
+
+	apply plugin: 'base'
+
+	group = 'org.hibernate.karafsandbox'
+	version = '1.0.0-SNAPSHOT'
+}
+
+wrapper {
+	gradleVersion = '4.10.2'
+	distributionType = Wrapper.DistributionType.ALL
+}
+

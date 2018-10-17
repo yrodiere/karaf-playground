@@ -1,0 +1,139 @@
+/*
+ * Hibernate, Relational Persistence for Idiomatic Java
+ *
+ * License: GNU Lesser General Public License (LGPL), version 2.1 or later
+ * See the lgpl.txt file in the root directory or http://www.gnu.org/licenses/lgpl-2.1.html
+ */
+
+/**
+ * Support for modules that contain Java code
+ */
+
+apply from: rootProject.file( 'gradle/libraries.gradle' )
+
+apply plugin: 'java'
+apply plugin: 'osgi'
+apply plugin: 'maven-publish'
+
+ext {
+	java9ModuleNameBase = project.name
+	java9ModuleName = "org.hibernate.karafsandbox.$project.java9ModuleNameBase"
+}
+
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// Configurations and Dependencies
+
+dependencies {
+	testCompile( libraries.junit )
+	testRuntime( libraries.log4j )
+}
+
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// Compilation
+
+tasks.withType(JavaCompile) {
+	options.encoding = 'UTF-8'
+}
+
+task compile(dependsOn: [compileJava, processResources, compileTestJava, processTestResources] )
+
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// Packaging
+
+jar {
+	manifest = osgiManifest {
+		// GRADLE-1411: Even if we override Imports and Exports
+		// auto-generation with instructions, classesDir and classpath
+		// need to be here (temporarily).
+
+		if ( project.pluginManager.hasPlugin( 'groovy' ) ) {
+			classesDir = sourceSets.main.groovy.outputDir
+		}
+		else {
+			classesDir = sourceSets.main.output.classesDir
+		}
+		classpath = configurations.runtime
+
+
+		// Java 9 module name
+		instruction 'Automatic-Module-Name', project.java9ModuleName
+
+		// the OSGi metadata
+		symbolicName project.java9ModuleName
+		vendor 'Hibernate.org'
+		description project.description
+
+		instruction 'Import-Package', '*'
+		instruction 'Export-Package',
+				'!*.internal.*',
+				'!*.internal',
+				'*'
+
+		// Basic JAR manifest metadata
+		instruction 'Specification-Title', project.name
+		instruction 'Specification-Version', project.version
+		instruction 'Specification-Vendor', 'Hibernate.org'
+		instruction 'Implementation-Title', project.name
+		instruction 'Implementation-Version', project.version
+		instruction 'Implementation-Vendor', 'Hibernate.org'
+		instruction 'Implementation-Vendor-Id', 'org.hibernate'
+		instruction 'Implementation-Url', 'http://hibernate.org/orm'
+	}
+}
+
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// IDE
+/*
+ The latest versions of IntelliJ copy and use the test resources into out/test/resources
+ this occurs before the placeholder in the test config file are substituted
+ with the testing values.
+
+ This behaviour prevents the execution of the hibernate tests from inside the IDE.
+
+ A solution is to enable the 'After Build' Execution of the copyResourcesToIntelliJOutFolder task
+ from the 'Gradle project' IntelliJ tool window ( The task can be found under hibernate-orm > Task > other)
+ */
+task copyResourcesToIntelliJOutFolder {
+	doLast {
+		copy {
+			from "$buildDir/resources/test"
+			into 'out/test/resources'
+		}
+	}
+}
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// Publishing
+
+publishing {
+	publications {
+		maven(MavenPublication) {
+			from components.java
+
+			pom {
+				name = 'Hibernate Karaf Sandbox - ' + project.name
+				description = project.description
+
+				organization {
+					name = 'Hibernate.org'
+					url = 'http://hibernate.org'
+				}
+
+				developers {
+					developer {
+						id = 'hibernate-team'
+						name = 'The Hibernate Development Team'
+						organization = 'Hibernate.org'
+						organizationUrl = 'http://hibernate.org'
+					}
+				}
+			}
+		}
+	}
+}

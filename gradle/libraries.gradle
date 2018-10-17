@@ -1,0 +1,26 @@
+/*
+ * Hibernate, Relational Persistence for Idiomatic Java
+ *
+ * License: GNU Lesser General Public License (LGPL), version 2.1 or later.
+ * See the lgpl.txt file in the root directory or <http://www.gnu.org/licenses/lgpl-2.1.html>.
+ */
+
+// build a map of the dependency artifacts to use.  Allows centralized definition of the version of artifacts to
+// use.  In that respect it serves a role similar to <dependencyManagement> in Maven
+ext {
+
+    junitVersion = '4.12'
+
+    libraries = [
+            // Strangely, jaxb-runtime 2.2.11 depends on jaxb-api 2.2.12-b140109.1041
+            jaxb_api: 'javax.xml.bind:jaxb-api:2.2.12-b140109.1041',
+            jaxb_runtime: 'org.glassfish.jaxb:jaxb-runtime:2.2.11',
+            
+            activation:     'javax.activation:javax.activation-api:1.2.0',
+
+            // ~~~~~~~~~~~~~~~~~~~~~~~~~~ testing
+
+            log4j:          "log4j:log4j:1.2.17",
+            junit:           "junit:junit:${junitVersion}",
+    ]
+}

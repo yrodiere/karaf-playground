@@ -1,0 +1,17 @@
+/*
+ * Hibernate, Relational Persistence for Idiomatic Java
+ *
+ * License: GNU Lesser General Public License (LGPL), version 2.1 or later.
+ * See the lgpl.txt file in the root directory or <http://www.gnu.org/licenses/lgpl-2.1.html>.
+ */
+
+apply from: rootProject.file( 'gradle/java-module.gradle' )
+
+description = 'Core'
+
+dependencies {
+	compile( libraries.jaxb_api )
+	testRuntime( libraries.jaxb_runtime )
+	// required by JAXB from JDK 9 as it is not available anymore in JDK 9
+	testRuntime( libraries.activation )
+}

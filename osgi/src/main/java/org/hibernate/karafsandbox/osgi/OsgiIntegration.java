@@ -29,14 +29,7 @@ public class OsgiIntegration {
 		// Then, automatically add the core bundle
 		osgiClassLoader.addBundle( FrameworkUtil.getBundle( LibraryInstance.class ) );
 
-		final ClassLoader originalTccl = Thread.currentThread().getContextClassLoader();
-		Thread.currentThread().setContextClassLoader( osgiClassLoader );
-		try {
-			return bootstrapper.bootstrap( osgiClassLoader );
-		}
-		finally {
-			Thread.currentThread().setContextClassLoader( originalTccl );
-		}
+		return bootstrapper.bootstrap( osgiClassLoader );
 	}
 
 }

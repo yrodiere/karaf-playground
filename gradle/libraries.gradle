@@ -13,10 +13,11 @@ ext {
 
     libraries = [
             // Strangely, jaxb-runtime 2.2.11 depends on jaxb-api 2.2.12-b140109.1041
-            jaxb_api: 'javax.xml.bind:jaxb-api:2.2.12-b140109.1041',
-            jaxb_runtime: 'org.glassfish.jaxb:jaxb-runtime:2.2.11',
+            jaxb_api: 'javax.xml.bind:jaxb-api:2.3.1',
+            jaxb_runtime: 'org.glassfish.jaxb:jaxb-runtime:2.3.1',
             
-            activation:     'javax.activation:javax.activation-api:1.2.0',
+            activation_api: 'javax.activation:javax.activation-api:1.2.0',
+            activation_runtime: 'com.sun.activation:javax.activation:1.2.0',
 
             // ~~~~~~~~~~~~~~~~~~~~~~~~~~ testing
 

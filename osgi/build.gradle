@@ -30,6 +30,10 @@ configurations {
 	karafDistro {
 		transitive = false
 	}
+	jaxb {
+		description = 'Jaxb dependencies'
+		transitive = true
+	}
 }
 
 dependencies {
@@ -50,6 +54,10 @@ dependencies {
 	testCompile( "org.apache.karaf:apache-karaf:${project.karafVersion}" )
 
 	karafDistro "org.apache.karaf:apache-karaf:${project.karafVersion}@tar.gz"
+
+	jaxb(libraries.jaxb_api)
+	jaxb(libraries.jaxb_runtime)
+	jaxb(libraries.activation_runtime)
 }
 
 test {
@@ -81,11 +89,23 @@ karaf {
 	features {
 		xsdVersion  = '1.4.0'
 		feature {
+			name        = 'karafsandbox-jaxb'
+			description = 'Karaf Sandbox JAXB feature'
+			includeProject = true
+			configurations 'jaxb'
+			feature ('wrap') {
+				prerequisite = true
+			}
+		}
+		feature {
 			name        = 'karafsandbox-core'
 			description = 'Karaf Sandbox Core feature'
 			includeProject = true
 			feature ('wrap') {
 				prerequisite = true
+			}
+			feature('karafsandbox-jaxb') {
+				version = project.version
 			}
 		}
 	}

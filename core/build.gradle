@@ -13,5 +13,5 @@ dependencies {
 	compile( libraries.jaxb_api )
 	testRuntime( libraries.jaxb_runtime )
 	// required by JAXB from JDK 9 as it is not available anymore in JDK 9
-	testRuntime( libraries.activation )
+	testRuntime( libraries.activation_api )
 }

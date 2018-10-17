@@ -1,0 +1,45 @@
+# Typically *NIX text editors, by default, append '~' to files on saving to make backups
+*~
+
+# Gradle work directory
+.gradle
+
+# Build output directories
+/build
+*/build
+
+# IntelliJ specific files/directories
+/out
+*/out
+.idea
+*.ipr
+*.iws
+*.iml
+atlassian-ide-plugin.xml
+
+# Eclipse specific files/directories
+.classpath
+.project
+.settings
+.externalToolBuilders
+.factorypath
+.metadata
+bin
+
+# NetBeans specific files/directories
+.nbattrs
+
+# Miscellaneous
+*.log
+.clover
+.DS_Store
+
+# Profiler and heap dumps
+*.jps
+*.hprof
+/.nb-gradle/
+
+
+# Vim
+*.swp
+*.swo
